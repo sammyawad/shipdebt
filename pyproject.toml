@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shipdebt"
+version = "0.1.0"
+description = "Find finished work that never shipped: commits on no remote, branches never merged, orphan worktrees and open 'needs a human' asks left by coding agents."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "SatchelSoft" }]
+keywords = ["git", "worktree", "coding-agents", "claude-code", "codex", "branches", "devtools"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Environment :: Console",
+  "Topic :: Software Development :: Version Control :: Git",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/sammyawad/shipdebt"
+Issues = "https://github.com/sammyawad/shipdebt/issues"
+
+[project.scripts]
+shipdebt = "shipdebt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

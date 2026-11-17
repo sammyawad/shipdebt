@@ -1,0 +1,27 @@
+name: "shipdebt"
+description: "Report finished work that never shipped (unpushed, unmerged, orphaned) and open human asks, as a job summary."
+branding:
+  icon: "anchor"
+  color: "orange"
+inputs:
+  roots:
+    description: "Space-separated folders to scan"
+    default: "."
+  asks:
+    description: "Also collect open human asks from .md/.txt notes (true/false)"
+    default: "true"
+  fail-over:
+    description: "Fail the job when more than N commits are on no remote (empty = never fail)"
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        python3 -m pip install --quiet "${{ github.action_path }}"
+        args="${{ inputs.roots }} --md"
+        [ "${{ inputs.asks }}" = "true" ] && args="$args --asks"
+        [ -n "${{ inputs.fail-over }}" ] && args="$args --fail-over ${{ inputs.fail-over }}"
+        set +e
+        shipdebt $args | tee -a "$GITHUB_STEP_SUMMARY"
+        exit ${PIPESTATUS[0]}
